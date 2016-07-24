@@ -64,45 +64,5 @@ class UserController extends Controller
             return response()->json("There is no user with  id=".$id,404);
         }
     }
-
-    public function turnbook($id)
-    {
-        $book=Book::find($id);
-
-        if(!empty($book))
-        {
-            $book->user_id=null;
-            $book->save();
-            return response()->json("User turned the book with id=".$id." to the library.",200);
-        }
-        else{
-            return response()->json("There is no book with id=".$id." in the library.",404);
-        }
-    }
-
-    public function getbook($id,$id_user)
-    {
-        $user=User::find($id_user);
-        
-        if(!empty($user))
-        {
-            $book=Book::find($id);
-            if(!empty($book))
-            {
-                $book->user_id=$id_user;
-
-                if($book->save()){
-                    return response()->json("User got the book with id=".$id." to the library.",200);
-                }
-            }
-            else
-            {
-                return response()->json("There is no book with id=".$id." in the library.",404);
-            }
-        }
-        else
-        {
-            return response()->json("There is no user with  id=".$id_user,404);
-        }
-    }
+    
 }

@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\User;
+use App\Book;
+
 class UserBookController extends Controller
 {
     /**
@@ -78,10 +81,17 @@ class UserBookController extends Controller
             $book=Book::find($id_book);
             if(!empty($book))
             {
-                $book->user_id=$id_user;
 
-                if($book->save()){
-                    return response()->json("User got the book with id=".$id_book." to the library.",200);
+                if($book->user_id==null)
+                {
+                    $book->user_id=$id_user;
+
+                    $book->save();
+                    return response()->json("User got the book with id=".$id_book,200);
+                }
+                else
+                {
+                    return response()->json("Another reader has got this book. It is not in library now.",200);
                 }
             }
             else
