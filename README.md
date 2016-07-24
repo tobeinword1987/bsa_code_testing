@@ -30,7 +30,7 @@ method: GET
 
 5. Предоставление списка книг, которые взял определенный пользователь
 
-url: http://bsa_laravel_rest.local/users/info/{id}
+url: http://bsa_laravel_rest.local/users/{user_id}/books
 body:
 method: GET
 

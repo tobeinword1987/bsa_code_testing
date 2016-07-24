@@ -16,61 +16,27 @@ class UserBookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id_user)
     {
-        //
+        $user=User::find($id_user);
+        if(!empty($user))
+        {
+            $books = User::find($id_user)->book;
+            if(count($books)>0)
+            {
+                return response()->json($books,200);
+            }
+            else
+            {
+                return response()->json("User with id=".$id_user." hasn't books from library.",200);
+            }
+        }
+        else{
+            return response()->json("There is no user with  id=".$id_user,404);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id_user,$id_book)
-    {
-        return $id_user;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update($id_user,$id_book)
     {
 
@@ -91,7 +57,7 @@ class UserBookController extends Controller
                 }
                 else
                 {
-                    return response()->json("Another reader has got this book. It is not in library now.",200);
+                    return response()->json("Another reader has got this book. It is not in library now.",404);
                 }
             }
             else
@@ -105,14 +71,4 @@ class UserBookController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

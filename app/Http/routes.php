@@ -17,8 +17,9 @@ Route::resource('books','BookController');
 
 Route::resource('users.books','UserBookController');
 
+/*
 Route::group(['prefix' => 'users/'],function(){
     Route::get('info/{id}','UserController@info');
     Route::put('turnbook/{id}','UserController@turnbook');
     Route::put('getbook/{id}/{id_user}','UserController@getbook');
-});
+});*/
