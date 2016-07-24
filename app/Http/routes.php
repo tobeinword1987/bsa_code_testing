@@ -11,24 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/library', function(){
-    return view ('library.index');
-});
-
 Route::resource('users','UserController');
 
 Route::resource('books','BookController');
 
-
-//Route::put('users/turnbook/{id}','UserController@turnbook');
-//
-//Route::get('users/info/{id}','UserController@info');
-//
-//Route::put('users/getbook/{id}/{id_user}','UserController@getbook');
+Route::resource('users.books','UserBookController');
 
 Route::group(['prefix' => 'users/'],function(){
     Route::get('info/{id}','UserController@info');

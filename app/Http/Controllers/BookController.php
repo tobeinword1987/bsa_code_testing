@@ -20,21 +20,14 @@ class BookController extends Controller
     public function index()
     {
         $books=DB::table('books')
+//            ->select('author','title')
             ->orderBy('updated_at','desc')
-            ->paginate(10);
+            ->get();
+//            ->paginate(2);
 
-        return view ('book.index',array('books' => $books));
+        return response()->json($books,200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -54,20 +47,17 @@ class BookController extends Controller
         $validator=Validator::make($request->all(),$rules);
 
         if ($validator->fails()){
-            return Redirect::to('books')
-                ->withErrors($validator)
-                ->withInput();
+            return response()->json($validator->messages(), 401);
         }
         else{
             $book=new Book();
-            $book->title = $request->title;
-            $book->author= $request->author;
-            $book->year= $request->year;
-            $book->genre= $request->genre;
+            $book->title = $request->get('title');
+            $book->author= $request->get('author');
+            $book->year= $request->get('year');
+            $book->genre= $request->get('genre');
 
             $book->save();
-            Session::flash('message','Successfully created book');
-            return Redirect::to('books');
+            return response()->json("The new book is added to the library",200);
         }
     }
 
@@ -80,18 +70,14 @@ class BookController extends Controller
     public function show($id)
     {
         $book=Book::find($id);
-        return view('book.update',array('book' => $book));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        if(!empty($book))
+        {
+            return response()->json($book,200);
+        }
+        else
+        {
+            return response()->json("There is no book with this id=".$id,404);
+        }
     }
 
     /**
@@ -101,26 +87,21 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-
-        $this->validate($request, [
-            'title' => 'required',
-            'author' => 'required|alpha',
-            'year' => 'required|numeric|max:2016|min:1000',
-            'genre' => 'required|alpha',
-        ]);
-
         $book=Book::find($id);
-        $book->title = $request->title;
-        $book->author= $request->author;
-        $book->year= $request->year;
-        $book->genre= $request->genre;
 
-        $book->save();
-        Session::flash('message','Successfully updated book');
-        return Redirect::to('books');
+        if(!empty($book))
+        {
+            $book->user_id=null;
+            $book->save();
+            return response()->json("User turned the book with id=".$id." to the library.",200);
+        }
+        else{
+            return response()->json("There is no book with id=".$id." in the library.",404);
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -131,9 +112,14 @@ class BookController extends Controller
     public function destroy($id)
     {
         $book=Book::find($id);
-        $book->delete();
-
-        Session::flash('message','Successfully deleted book');
-        return Redirect::to('books');
+        if(!empty($book))
+        {
+            $book->delete();
+            return response()->json("The  book is deleted from library",200);
+        }
+        else
+        {
+            return response()->json("There is no book with this id=".$id,404);
+        }
     }
 }
