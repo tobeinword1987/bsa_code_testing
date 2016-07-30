@@ -33,5 +33,16 @@ class UserController extends Controller
             return response()->json("There is no user with id=".$id,404);
         }
     }
+
+    public function index()
+    {
+        $users=DB::table('users')
+//            ->select('author','title')
+            ->orderBy('updated_at','desc')
+            ->get();
+//            ->paginate(2);
+
+        return response()->json($users,200);
+    }
     
 }

@@ -114,8 +114,15 @@ class BookController extends Controller
         $book=Book::find($id);
         if(!empty($book))
         {
-            $book->delete();
-            return response()->json("The  book is deleted from library",200);
+            if($book->user_id==null)
+            {
+                $book->delete();
+                return response()->json("The  book is deleted from library",200);
+            }
+            else
+            {
+                return response()->json("The  book couldn't be deleted from library. User reads it.",200);
+            }
         }
         else
         {
