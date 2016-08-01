@@ -46,5 +46,35 @@ class UserController extends Controller
 
         return response()->json($users,200);
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $rules=array(
+            'firstname' => 'required|alpha',
+            'lastname' => 'required|alpha',
+            'email' => 'required|email|unique:users',
+        );
+
+        $validator=Validator::make($request->all(),$rules);
+
+        if ($validator->fails()){
+            return response()->json($validator->messages(), 401);
+        }
+        else{
+            $book=new User();
+            $book->firstname = $request->get('firstname');
+            $book->lastname= $request->get('lastname');
+            $book->email= $request->get('email');
+
+            $book->save();
+            return response()->json("The new user is added to the library",200);
+        }
+    }
     
 }
