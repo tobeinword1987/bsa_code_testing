@@ -26,6 +26,7 @@ class UserController extends Controller
 
         if(!empty($user))
         {
+            $user['books']=User::find($id)->book;
             return response()->json($user,200);
         }
         else

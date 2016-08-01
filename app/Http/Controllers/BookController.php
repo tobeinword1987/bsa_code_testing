@@ -121,7 +121,7 @@ class BookController extends Controller
             }
             else
             {
-                return response()->json("The  book couldn't be deleted from library. User reads it.",200);
+                return response()->json("The  book couldn't be deleted from library. User reads it.",404);
             }
         }
         else
