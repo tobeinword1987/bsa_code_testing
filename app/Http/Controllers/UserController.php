@@ -67,14 +67,13 @@ class UserController extends Controller
             return response()->json($validator->messages(), 401);
         }
         else{
-            $book=new User();
-            $book->firstname = $request->get('firstname');
-            $book->lastname= $request->get('lastname');
-            $book->email= $request->get('email');
+            $user=new User();
+            $user->firstname = $request->get('firstname');
+            $user->lastname= $request->get('lastname');
+            $user->email= $request->get('email');
 
-            $book->save();
+            $user->save();
             return response()->json("The new user is added to the library",200);
         }
     }
-    
 }
