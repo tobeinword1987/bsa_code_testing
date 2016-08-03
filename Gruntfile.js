@@ -1,5 +1,6 @@
 module.exports = function(grunt) {
 
+    var vendors = 'jquery backbone backbone.marionette backbone.localstorage'.split(' ');
     grunt.initConfig({
         browserify:{
             // just the app
@@ -10,7 +11,7 @@ module.exports = function(grunt) {
                     debug: true,
                     extensions: ['.hbs'],
                     transform: ['hbsfy'],
-                    // external: vendors
+                    external: vendors
                 }
             },
             vendors: {
@@ -18,7 +19,7 @@ module.exports = function(grunt) {
                     'public/js/vendors.js': []
                 },
                 options: {
-                    // 'require': vendors
+                    'require': vendors
                 }
             },
             //bundle all in one
@@ -92,7 +93,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-jst');
     grunt.loadNpmTasks('grunt-contrib-jst');
 
     grunt.registerTask('default', ['browserify']);

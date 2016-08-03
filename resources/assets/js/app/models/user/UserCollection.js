@@ -1,4 +1,4 @@
-var User=require('./User.js');
+var User=require('./User');
 
 var UserCollection = Backbone.Collection.extend({
     model: User,

@@ -1,11 +1,15 @@
 $ = require("jquery");
-// window.$ = $;
+window.$ = $;
 
 Backbone = require("backbone");
 Backbone.$ = require("jquery");
 _ = require("underscore");
-
 Marionette = require('backbone.marionette');
+
+
+if ((_ref = window.JST) == null) {
+    window.JST = {};
+}
 
 var header=require('./views/header');
 
@@ -33,24 +37,24 @@ app.Router = Marionette.AppRouter.extend({
 
 routerAPI = {
     showUsers: function () {
-        Controller.showUsers();
+        Controller.showUsers;
     },
     createUser: function () {
-        Controller.createUser();
+        Controller.createUser;
     },
     showBooks: function () {
-        Controller.showBooks();
+        Controller.showBooks;
     },
     createBook: function () {
-        Controller.createBook();
+        Controller.createBook;
     },
 
     showFreeBooks: function () {
-        Controller.showFreeBooks();
+        Controller.showFreeBooks;
     },
 
     showUsersBooks: function () {
-        Controller.showUsersBooks();
+        Controller.showUsersBooks;
     }
 };
 
@@ -92,7 +96,7 @@ app.on('show:usersBooks', function () {
 });
 
 app.on('start', function () {
-    app.getRegion('header').show(new header());
+    // app.getRegion('header').show(header);
     new app.Router({
         controller: routerAPI
     });

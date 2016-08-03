@@ -52,7 +52,7 @@ this["JST"]["resources/assets/js/app/templates/header_template.tpl"] = function(
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<script type="text/html" id="header-template">\n    <ul class="nav navbar-nav">\n        <li><a style="cursor: pointer;" class="js-users">Users</a></li>\n        <li><a style="cursor: pointer;" class="js-books">Books</a></li>\n        <li><a style="cursor: pointer;" class="js-add-user">Add User</a></li>\n        <li><a style="cursor: pointer;" class="js-add-book">Add Book</a></li>\n    </ul>\n</script>';
+__p += '<script type="text/html" id="header-template">\n    <ul class="nav navbar-nav">\n        <li><a style="cursor: pointer;" class="js-books">Users</a></li>\n        <li><a style="cursor: pointer;" class="js-books">Books</a></li>\n        <li><a style="cursor: pointer;" class="js-add-user">Add User</a></li>\n        <li><a style="cursor: pointer;" class="js-add-book">Add Book</a></li>\n    </ul>\n</script>';
 
 }
 return __p
