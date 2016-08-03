@@ -10,15 +10,19 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: PUT, GET, POST");
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+header('Access-Control-Allow-Origin:  *');
+header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, DELETE');
+header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization');
 
 Route::resource('users','UserController');
 
 Route::resource('books','BookController');
 
 Route::resource('users.books','UserBookController');
+
+Route::get('/',function(){
+    return view('base');
+});
 
 /*
 Route::group(['prefix' => 'users/'],function(){
