@@ -20954,7 +20954,7 @@ if ((_ref = window.JST) == null) {
     window.JST = {};
 }
 
-var header1=require('./views/header');
+var header=require('./views/header');
 
 var Controller=require('./controllers/Controller');
 
@@ -21039,7 +21039,7 @@ app.on('show:usersBooks', function () {
 });
 
 app.on('start', function () {
-    app.getRegion('header').show(header1);
+    // app.getRegion('header').show(header);
     new app.Router({
         controller: routerAPI
     });
@@ -21127,6 +21127,8 @@ var Controller = {
         app.main.show(usersbooksview);
     }
 }
+
+console.log(Controller);
 },{"../models/book/Book":14,"../models/book/BookCollection":15,"../models/user/User":16,"../models/user/UserCollection":17,"../models/user/UsersBookCollection":19,"../views/book/Books":21,"../views/book/CreateBook":22,"../views/user/CreateUser":24,"../views/user/Users":26,"../views/user/UsersBooks.js":28}],14:[function(require,module,exports){
 var Book = Backbone.Model.extend({
     urlRoot: 'http://bsa_laravel_rest.local/books',

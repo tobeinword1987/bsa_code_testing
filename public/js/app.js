@@ -1383,24 +1383,24 @@ app.Router = Marionette.AppRouter.extend({
 
 routerAPI = {
     showUsers: function () {
-        Controller.showUsers;
+        Controller.showUsers();
     },
     createUser: function () {
-        Controller.createUser;
+        Controller.createUser();
     },
     showBooks: function () {
-        Controller.showBooks;
+        Controller.showBooks();
     },
     createBook: function () {
-        Controller.createBook;
+        Controller.createBook();
     },
 
     showFreeBooks: function () {
-        Controller.showFreeBooks;
+        Controller.showFreeBooks();
     },
 
     showUsersBooks: function () {
-        Controller.showUsersBooks;
+        Controller.showUsersBooks();
     }
 };
 
@@ -1530,6 +1530,8 @@ var Controller = {
         app.main.show(usersbooksview);
     }
 }
+
+console.log(Controller);
 },{"../models/book/Book":4,"../models/book/BookCollection":5,"../models/user/User":6,"../models/user/UserCollection":7,"../models/user/UsersBookCollection":9,"../views/book/Books":11,"../views/book/CreateBook":12,"../views/user/CreateUser":14,"../views/user/Users":16,"../views/user/UsersBooks.js":18}],4:[function(require,module,exports){
 var Book = Backbone.Model.extend({
     urlRoot: 'http://bsa_laravel_rest.local/books',

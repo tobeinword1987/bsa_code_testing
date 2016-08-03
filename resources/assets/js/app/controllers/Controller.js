@@ -57,3 +57,5 @@ var Controller = {
         app.main.show(usersbooksview);
     }
 }
+
+console.log(Controller);

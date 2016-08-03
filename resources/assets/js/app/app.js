@@ -37,24 +37,24 @@ app.Router = Marionette.AppRouter.extend({
 
 routerAPI = {
     showUsers: function () {
-        Controller.showUsers;
+        Controller.showUsers();
     },
     createUser: function () {
-        Controller.createUser;
+        Controller.createUser();
     },
     showBooks: function () {
-        Controller.showBooks;
+        Controller.showBooks();
     },
     createBook: function () {
-        Controller.createBook;
+        Controller.createBook();
     },
 
     showFreeBooks: function () {
-        Controller.showFreeBooks;
+        Controller.showFreeBooks();
     },
 
     showUsersBooks: function () {
-        Controller.showUsersBooks;
+        Controller.showUsersBooks();
     }
 };
 
