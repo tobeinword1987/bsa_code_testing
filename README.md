@@ -51,3 +51,4 @@ method: PUT
 url: http://bsa_laravel_rest.local/users/{id_user}
 body:
 method: GET
+# bsa_frontend_architecture
