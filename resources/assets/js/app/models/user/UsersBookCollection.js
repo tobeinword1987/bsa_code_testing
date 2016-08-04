@@ -4,4 +4,6 @@ var UsersBook=require('./UsersBook');
 var UsersBookCollection = Backbone.Collection.extend({
     model: UsersBook,
     url: 'http://bsa_laravel_rest.local/users/:id',
-})
+});
+
+module.exports = UsersBookCollection;

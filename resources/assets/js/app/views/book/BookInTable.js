@@ -1,6 +1,9 @@
+var template=require('../../templates/book/books_table_row_template.hbs');
+
 var BookInTable = Marionette.ItemView.extend({
     tagName: 'tr',
-    template:window['JST']['resources/assets/js/app/templates/book/books_table_row_template.tpl'],
+    // template:window['JST']['resources/assets/js/app/templates/book/books_table_row_template.tpl'],
+    template:template,
     ui: {
         delete: '#book_del_button',
         err: '.js-errors'
@@ -29,3 +32,5 @@ var BookInTable = Marionette.ItemView.extend({
         }
     }
 });
+
+module.exports = BookInTable;

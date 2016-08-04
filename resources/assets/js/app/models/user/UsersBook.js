@@ -14,4 +14,6 @@ var UsersBook = Backbone.Model.extend({
             year: ''
         }
     }
-})
+});
+
+module.exports = UsersBook;

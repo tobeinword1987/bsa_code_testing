@@ -1,7 +1,7 @@
-var UserCollection=require('../models/user/UserCollection');
 var User=require('../models/user/User');
-var Book=require('../models/book/Book');
+var UserCollection=require('../models/user/UserCollection');
 var Users=require('../views/user/Users');
+var Book=require('../models/book/Book');
 var CreateUser=require('../views/user/CreateUser');
 var BookCollection=require('../models/book/BookCollection');
 var Books=require('../views/book/Books');
@@ -58,3 +58,5 @@ var Controller = {
 }
 
 console.log(Controller);
+
+module.exports = Controller;

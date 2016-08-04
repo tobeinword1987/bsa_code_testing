@@ -1,5 +1,9 @@
+var template=require('../../templates/user/create_user_template.hbs');
+
+
 var CreateUser = Marionette.ItemView.extend({
-    template:window['JST']['resources/assets/js/app/templates/user/create_user_template.tpl'],
+    // template:window['JST']['resources/assets/js/app/templates/user/create_user_template.tpl'],
+    template:template,
     ui: {
         save: '.js-save',
         form: 'form',
@@ -37,3 +41,5 @@ var CreateUser = Marionette.ItemView.extend({
         }
     }
 });
+
+module.exports = CreateUser;

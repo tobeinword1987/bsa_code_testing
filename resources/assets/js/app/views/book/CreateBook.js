@@ -1,5 +1,8 @@
+var template=require('../../templates/book/create_book_template.hbs');
+
 var CreateBook = Marionette.ItemView.extend({
-    template:window['JST']['resources/assets/js/app/templates/book/create_book_template.tpl'],
+    // template:window['JST']['resources/assets/js/app/templates/book/create_book_template.tpl'],
+    template:template,
     ui: {
         save: '.js-save',
         form: 'form',
@@ -39,3 +42,5 @@ var CreateBook = Marionette.ItemView.extend({
         }
     }
 });
+
+module.exports = CreateBook;

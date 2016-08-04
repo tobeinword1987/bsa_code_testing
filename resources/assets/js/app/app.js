@@ -1,13 +1,26 @@
 var _ = require('underscore');
-var $ = require('jquery');
+$ = require('jquery');
 Backbone = require('backbone');
 Backbone.$ = $;
 Marionette = require('backbone.marionette');
 
+var Controller=require('./controllers/Controller');
+var header=require('./views/header');
+// var User=require('./models/user/User');
+// var UserCollection=require('./models/user/UserCollection');
+// var Users=require('./views/user/Users');
+// var Book=require('./models/book/Book');
+// var CreateUser=require('./views/user/CreateUser');
+// var BookCollection=require('./models/book/BookCollection');
+// var Books=require('./views/book/Books');
+// var CreateBook=require('./views/book/CreateBook');
+// var UsersBookCollection=require('./models/user/UsersBookCollection');
+// var UsersBooks=require('./views/user/UsersBooks.js');
 
-if ((_ref = window.JST) == null) {
-    window.JST = {};
-}
+
+// if ((_ref = window.JST) == null) {
+//     window.JST = {};
+// }
 
 
 app = new Marionette.Application();
@@ -29,8 +42,6 @@ app.Router = Marionette.AppRouter.extend({
         'book/showUsersBooks' : 'showUsersBooks'
     }
 });
-
-
 
 routerAPI = {
     showUsers: function () {
@@ -64,49 +75,48 @@ app.getCurrentRoute = function () {
     return Backbone.history.fragment;
 };
 
-var header=require('./views/header');
 
 app.on('start', function () {
-    app.getRegion('header').show(header);
+    // app.getRegion('header').show(header);
     new app.Router({
         controller: routerAPI
     });
 
-app.on('show:users', function () {
-    Backbone.history.navigate('user', {
-        trigger: true
+    app.on('show:users', function () {
+        Backbone.history.navigate('user', {
+            trigger: true
+        });
     });
-});
 
-app.on('create:user', function () {
-    Backbone.history.navigate('user/create', {
-        trigger: true
+    app.on('create:user', function () {
+        Backbone.history.navigate('user/create', {
+            trigger: true
+        });
     });
-});
 
-app.on('show:books', function () {
-    Backbone.history.navigate('book', {
-        trigger: true
+    app.on('show:books', function () {
+        Backbone.history.navigate('book', {
+            trigger: true
+        });
     });
-});
 
-app.on('create:book', function () {
-    Backbone.history.navigate('book/create', {
-        trigger: true
+    app.on('create:book', function () {
+        Backbone.history.navigate('book/create', {
+            trigger: true
+        });
     });
-});
 
-app.on('show:freeBooks', function () {
-    Backbone.history.navigate('book/:id/showFreeBooks', {
-        trigger: true
+    app.on('show:freeBooks', function () {
+        Backbone.history.navigate('book/:id/showFreeBooks', {
+            trigger: true
+        });
     });
-});
 
-app.on('show:usersBooks', function () {
-    Backbone.history.navigate('book/showUsersBooks', {
-        trigger: true
+    app.on('show:usersBooks', function () {
+        Backbone.history.navigate('book/showUsersBooks', {
+            trigger: true
+        });
     });
-});
 
 
     if (Backbone.history) {
@@ -120,8 +130,6 @@ app.on('show:usersBooks', function () {
     }
 });
 
-var Controller=require('./controllers/Controller');
-
 app.start();
 
-// module.exports=app;
+module.exports=app;

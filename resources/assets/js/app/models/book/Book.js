@@ -54,3 +54,5 @@ var Book = Backbone.Model.extend({
         }
     }
 });
+
+module.exports = Book;
