@@ -21006,7 +21006,7 @@ var User = Backbone.Model.extend({
         {
             errors.email = "Email is invalid";
         }
-        if( ! _.isEmpty(errors)){
+        if( !isEmpty(errors)){
             return errors;
         }
     }

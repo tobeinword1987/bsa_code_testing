@@ -2902,7 +2902,7 @@ var Book = Backbone.Model.extend({
         {
             errors.year = "The year must be at least 1000 and may not be greater than 2016";
         }
-        if( ! _.isEmpty(errors)){
+        if( ! this.isEmpty(errors)){
             return errors;
         }
     }
@@ -2959,7 +2959,7 @@ var User = Backbone.Model.extend({
         {
             errors.email = "Email is invalid";
         }
-        if( ! _.isEmpty(errors)){
+        if( !this.isEmpty(errors)){
             return errors;
         }
     }
