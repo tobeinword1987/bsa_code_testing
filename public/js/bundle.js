@@ -21100,7 +21100,7 @@ module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":f
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "\n    <ul class=\"nav navbar-nav\">\n        <li><a style=\"cursor: pointer;\" class=\"js-books\">Users</a></li>\n        <li><a style=\"cursor: pointer;\" class=\"js-books\">Books</a></li>\n        <li><a style=\"cursor: pointer;\" class=\"js-add-user\">Add User</a></li>\n        <li><a style=\"cursor: pointer;\" class=\"js-add-book\">Add Book</a></li>\n    </ul>";
+    return "\n    <ul class=\"nav navbar-nav\">\n        <li><a style=\"cursor: pointer;\" class=\"js-users\">Users</a></li>\n        <li><a style=\"cursor: pointer;\" class=\"js-books\">Books</a></li>\n        <li><a style=\"cursor: pointer;\" class=\"js-add-user\">Add User</a></li>\n        <li><a style=\"cursor: pointer;\" class=\"js-add-book\">Add Book</a></li>\n    </ul>";
 },"useData":true});
 
 },{"hbsfy/runtime":28}],43:[function(require,module,exports){

@@ -98,6 +98,6 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['browserify']);
     grunt.registerTask('stage', ['browserify:app', 'browserify:vendors','browserify:bundle','concat']);
     grunt.registerTask('prod', ['browserify:bundle', 'uglify','concat']);
-    grunt.registerTask('dev', ['stage', 'jst','watch']);
+    grunt.registerTask('dev', ['stage', 'watch']);
 
 };
