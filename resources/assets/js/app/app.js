@@ -1,9 +1,7 @@
-$ = require("jquery");
-window.$ = $;
-
-Backbone = require("backbone");
-Backbone.$ = require("jquery");
-_ = require("underscore");
+var _ = require('underscore');
+var $ = require('jquery');
+Backbone = require('backbone');
+Backbone.$ = $;
 Marionette = require('backbone.marionette');
 
 
@@ -11,9 +9,6 @@ if ((_ref = window.JST) == null) {
     window.JST = {};
 }
 
-var header=require('./views/header');
-
-var Controller=require('./controllers/Controller');
 
 app = new Marionette.Application();
 
@@ -34,6 +29,8 @@ app.Router = Marionette.AppRouter.extend({
         'book/showUsersBooks' : 'showUsersBooks'
     }
 });
+
+
 
 routerAPI = {
     showUsers: function () {
@@ -58,6 +55,22 @@ routerAPI = {
     }
 };
 
+app.navigate = function (route, options) {
+    options || (options = {});
+    Backbone.history.navigate(route, options);
+};
+
+app.getCurrentRoute = function () {
+    return Backbone.history.fragment;
+};
+
+var header=require('./views/header');
+
+app.on('start', function () {
+    app.getRegion('header').show(header);
+    new app.Router({
+        controller: routerAPI
+    });
 
 app.on('show:users', function () {
     Backbone.history.navigate('user', {
@@ -95,11 +108,6 @@ app.on('show:usersBooks', function () {
     });
 });
 
-app.on('start', function () {
-    // app.getRegion('header').show(header);
-    new app.Router({
-        controller: routerAPI
-    });
 
     if (Backbone.history) {
         Backbone.history.start();
@@ -112,15 +120,8 @@ app.on('start', function () {
     }
 });
 
-app.navigate = function (route, options) {
-    options || (options = {});
-    Backbone.history.navigate(route, options);
-};
-
-app.getCurrentRoute = function () {
-    return Backbone.history.fragment;
-};
+var Controller=require('./controllers/Controller');
 
 app.start();
 
-module.exports=app;
+// module.exports=app;

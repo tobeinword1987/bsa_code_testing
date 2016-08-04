@@ -9,7 +9,6 @@ var CreateBook=require('../views/book/CreateBook');
 var UsersBookCollection=require('../models/user/UsersBookCollection');
 var UsersBooks=require('../views/user/UsersBooks.js');
 
-
 var Controller = {
     showUsers: function () {
         var users = new UserCollection();
