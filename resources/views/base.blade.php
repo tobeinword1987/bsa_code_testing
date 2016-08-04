@@ -22,7 +22,7 @@
 <script src="js/vendors.js"></script>
 <script src="js/bower-vendors.js"></script>
 <script src="js/app.js"></script>
-<script src="js/templates.js"></script>
+{{--<script src="js/templates.js"></script>--}}
 {{--<script src="js/bundle.js"></script>--}}
 </body>
 </html>

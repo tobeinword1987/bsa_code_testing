@@ -77,7 +77,7 @@ app.getCurrentRoute = function () {
 
 
 app.on('start', function () {
-    // app.getRegion('header').show(header);
+    app.getRegion('header').show(new header());
     new app.Router({
         controller: routerAPI
     });
