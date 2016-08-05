@@ -58,9 +58,9 @@ class UserBookController extends Controller
                     //Создадим слушателя, который через 30 дней проверит, книга находится еще у этого пользователя или нет
                     $job=new Send_mail_turn_the_book($book,$user);
 
-//                    $date = Carbon::now()->addDays(30);
+                    $date = Carbon::now()->addDays(30);
 
-                     $date = Carbon::now()->addSeconds(30);
+//                     $date = Carbon::now()->addSeconds(30);
 
                      Queue::later($date, $job);
                 }
