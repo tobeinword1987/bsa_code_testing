@@ -2652,7 +2652,7 @@ module.exports = require("handlebars/runtime")["default"];
 }.call(this));
 
 },{}],22:[function(require,module,exports){
-var _ = require('underscore');
+ _ = require('underscore');
 $ = require('jquery');
 Backbone = require('backbone');
 Backbone.$ = $;
@@ -2852,7 +2852,8 @@ console.log(Controller);
 module.exports = Controller;
 },{"../models/book/Book":24,"../models/book/BookCollection":25,"../models/user/User":26,"../models/user/UserCollection":27,"../models/user/UsersBookCollection":29,"../views/book/Books":39,"../views/book/CreateBook":40,"../views/user/CreateUser":42,"../views/user/Users":44,"../views/user/UsersBooks.js":46}],24:[function(require,module,exports){
 var Book = Backbone.Model.extend({
-    urlRoot: 'http://bsa_laravel_rest.local/books',
+    // urlRoot: 'http://bsa_laravel_rest.local/books',
+    urlRoot: 'books',
     defaults: {
         id: '',
         title: '',
@@ -2902,7 +2903,7 @@ var Book = Backbone.Model.extend({
         {
             errors.year = "The year must be at least 1000 and may not be greater than 2016";
         }
-        if( ! this.isEmpty(errors)){
+        if( ! _.isEmpty(errors)){
             return errors;
         }
     }
@@ -2915,13 +2916,15 @@ var Book=require('./Book');
 
 var BookCollection = Backbone.Collection.extend({
     model: Book,
-    url: 'http://bsa_laravel_rest.local/books'
+    // url: 'http://bsa_laravel_rest.local/books'
+    url: 'books'
 });
 
 module.exports = BookCollection;
 },{"./Book":24}],26:[function(require,module,exports){
 var User = Backbone.Model.extend({
-    urlRoot: 'http://bsa_laravel_rest.local/users',
+    // urlRoot: 'http://bsa_laravel_rest.local/users',
+    urlRoot: 'users',
     defaults: {
         id: '',
         firstname: '',
@@ -2959,7 +2962,7 @@ var User = Backbone.Model.extend({
         {
             errors.email = "Email is invalid";
         }
-        if( !this.isEmpty(errors)){
+        if( !_.isEmpty(errors)){
             return errors;
         }
     }
@@ -2971,7 +2974,8 @@ var User=require('./User.js');
 
 var UserCollection = Backbone.Collection.extend({
     model: User,
-    url: 'http://bsa_laravel_rest.local/users'
+    // url: 'http://bsa_laravel_rest.local/users'
+    url: 'users'
 });
 
 module.exports = UserCollection;
@@ -2979,7 +2983,8 @@ module.exports = UserCollection;
 },{"./User.js":26}],28:[function(require,module,exports){
 //model книга пользователя
 var UsersBook = Backbone.Model.extend({
-    urlRoot: 'http://bsa_laravel_rest.local/users/:id',
+    // urlRoot: 'http://bsa_laravel_rest.local/users/:id',
+    urlRoot: 'users/:id',
     defaults: {
         id: '',
         firstname: '',
@@ -3002,7 +3007,8 @@ var UsersBook=require('./UsersBook');
 //model список книг пользователей
 var UsersBookCollection = Backbone.Collection.extend({
     model: UsersBook,
-    url: 'http://bsa_laravel_rest.local/users/:id',
+    // url: 'http://bsa_laravel_rest.local/users/:id',
+    url: 'users/:id',
 });
 
 module.exports = UsersBookCollection;
@@ -3165,6 +3171,7 @@ var Books = Marionette.CompositeView.extend({
 module.exports = Books;
 },{"../../templates/book/books_table_template.hbs":31,"./BookInTable":38}],40:[function(require,module,exports){
 var template=require('../../templates/book/create_book_template.hbs');
+var bookModel=require('../../models/book/Book');
 
 var CreateBook = Marionette.ItemView.extend({
     // template:window['JST']['resources/assets/js/app/templates/book/create_book_template.tpl'],
@@ -3188,13 +3195,13 @@ var CreateBook = Marionette.ItemView.extend({
             var year = this.ui.form.find("input[name='year']").val();
             var genre = this.ui.form.find("input[name='genre']").val();
             this.model.unset('id');
-
             if(book.save({
                     title: title,
                     author: author,
                     year: year,
                     genre:genre,
-                })){
+                }))
+            {
                 view.ui.err.append('<ul>');
                 view.ui.err.find('ul').append('<li>' + 'Вы создали новую книгу!' + '</li>');
             } else {
@@ -3210,7 +3217,7 @@ var CreateBook = Marionette.ItemView.extend({
 });
 
 module.exports = CreateBook;
-},{"../../templates/book/create_book_template.hbs":32}],41:[function(require,module,exports){
+},{"../../models/book/Book":24,"../../templates/book/create_book_template.hbs":32}],41:[function(require,module,exports){
 var template=require('../templates/header_template.hbs');
 
 var header = Marionette.ItemView.extend({

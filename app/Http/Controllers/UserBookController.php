@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\Send_mail_turn_the_book;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
 use App\User;
 use App\Book;
+use Carbon\Carbon;
 
 class UserBookController extends Controller
 {
@@ -36,10 +38,8 @@ class UserBookController extends Controller
         }
     }
 
-
     public function update($id_user,$id_book)
     {
-
         $user=User::find($id_user);
 
         if(!empty($user))
@@ -54,6 +54,15 @@ class UserBookController extends Controller
 
                     $book->save();
                     return response()->json("User got the book with id=".$id_book,200);
+
+                    //Создадим слушателя, который через 30 дней проверит, книга находится еще у этого пользователя или нет
+                    $job=new Send_mail_turn_the_book($book,$user);
+
+//                    $date = Carbon::now()->addDays(30);
+
+                     $date = Carbon::now()->addSeconds(30);
+
+                     Queue::later($date, $job);
                 }
                 else
                 {

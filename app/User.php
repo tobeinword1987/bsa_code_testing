@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 /**
  * Class User
@@ -18,5 +19,11 @@ class User extends Model
     public function book()
     {
         return $this->hasMany('App\Book');
+    }
+    
+    public function get_all_users()
+    {
+        $users=User::all();
+        return $users;
     }
 }

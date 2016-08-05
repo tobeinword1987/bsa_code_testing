@@ -1,5 +1,6 @@
 var Book = Backbone.Model.extend({
-    urlRoot: 'http://bsa_laravel_rest.local/books',
+    // urlRoot: 'http://bsa_laravel_rest.local/books',
+    urlRoot: 'books',
     defaults: {
         id: '',
         title: '',
@@ -49,7 +50,7 @@ var Book = Backbone.Model.extend({
         {
             errors.year = "The year must be at least 1000 and may not be greater than 2016";
         }
-        if( ! this.isEmpty(errors)){
+        if( ! _.isEmpty(errors)){
             return errors;
         }
     }

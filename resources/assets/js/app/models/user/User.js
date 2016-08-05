@@ -1,5 +1,6 @@
 var User = Backbone.Model.extend({
-    urlRoot: 'http://bsa_laravel_rest.local/users',
+    // urlRoot: 'http://bsa_laravel_rest.local/users',
+    urlRoot: 'users',
     defaults: {
         id: '',
         firstname: '',
@@ -37,7 +38,7 @@ var User = Backbone.Model.extend({
         {
             errors.email = "Email is invalid";
         }
-        if( !this.isEmpty(errors)){
+        if( !_.isEmpty(errors)){
             return errors;
         }
     }

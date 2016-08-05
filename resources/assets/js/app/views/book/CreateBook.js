@@ -1,4 +1,5 @@
 var template=require('../../templates/book/create_book_template.hbs');
+var bookModel=require('../../models/book/Book');
 
 var CreateBook = Marionette.ItemView.extend({
     // template:window['JST']['resources/assets/js/app/templates/book/create_book_template.tpl'],
@@ -22,13 +23,13 @@ var CreateBook = Marionette.ItemView.extend({
             var year = this.ui.form.find("input[name='year']").val();
             var genre = this.ui.form.find("input[name='genre']").val();
             this.model.unset('id');
-
             if(book.save({
                     title: title,
                     author: author,
                     year: year,
                     genre:genre,
-                })){
+                }))
+            {
                 view.ui.err.append('<ul>');
                 view.ui.err.find('ul').append('<li>' + 'Вы создали новую книгу!' + '</li>');
             } else {

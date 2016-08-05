@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Jobs\SendEmail_about_new_book;
+use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Queue;
+use DB;
 
 class BookController extends Controller
 {
@@ -57,7 +61,29 @@ class BookController extends Controller
             $book->genre= $request->get('genre');
 
             $book->save();
-            return response()->json("The new book is added to the library",200);
+
+            $this->sendReminderEmail($request,$book->id);
+
+            return response()->json("The new book with id=".$book->id." is added to the library",200);
+        }
+    }
+
+    public function sendReminderEmail(Request $request,$id)
+    {
+        $book=Book::findOrFail($id);
+        $ex_user=new User();
+        
+        $users=$ex_user->get_all_users();
+
+        foreach ($users as $user)
+        {
+            $job=new SendEmail_about_new_book($book,$user);
+//                ->delay(20);
+//            $this->dispatch($job);
+//            Queue::push($job);
+            $date = Carbon::now()->addSeconds(15);
+
+            Queue::later($date, $job);
         }
     }
 

@@ -55,7 +55,8 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+//    'from' => ['address' => null, 'name' => null],
+    'from' => array('address' => 'test19871987test@gmail.com', 'name' => 'Library'),
 
     /*
     |--------------------------------------------------------------------------
