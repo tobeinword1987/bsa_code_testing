@@ -8,6 +8,8 @@ var Books=require('../views/book/Books');
 var CreateBook=require('../views/book/CreateBook');
 var UsersBookCollection=require('../models/user/UsersBookCollection');
 var UsersBooks=require('../views/user/UsersBooks.js');
+var User2=require('../models/user/User_get_free_books');
+var GiveBookView=require('../views/user/GiveBook');
 
 var Controller = {
     showUsers: function () {
@@ -41,10 +43,6 @@ var Controller = {
         app.main.show(createBookview);
     },
 
-    showFreeBooks: function(){
-
-    },
-
     showUsersBooks: function(){
         var usersbooks = new UsersBookCollection({
         });
@@ -54,6 +52,18 @@ var Controller = {
             collection:usersbooks,
         });
         app.main.show(usersbooksview);
+    },
+
+    giveBook: function (id) {
+        var user = new User2({id: id});
+        user.fetch().then(function () {
+            var view = new GiveBookView({
+                model: user
+            });
+            app.main.show(view);
+        }, function () {
+            alert('I can not fetch user');
+        });
     }
 }
 

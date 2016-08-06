@@ -4,19 +4,14 @@ var UserInTable = Marionette.ItemView.extend({
     tagName: 'tr',
     // template:window['JST']['resources/assets/js/app/templates/user/users_table_row_template.tpl'],
     template:template,
-    ui: {
-        showFreeBooks: '#showFreeBooks',
-        showUsersBooks: '#showUsersBooks',
-    },
-    events: {
-        'click @ui.showFreeBooks': function () {
-            app.trigger('show:freeBooks');
+        ui: {
+            give: '.js-give'
         },
-
-        'click @ui.showUsersBooks': function () {
-            app.trigger('show:usersBooks');
-        },
-    },
+        events: {
+            'click @ui.give': function () {
+                app.trigger('give:book', this.model.get('id'));
+            }
+        }
 });
 
 module.exports = UserInTable;

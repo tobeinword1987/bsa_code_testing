@@ -38,8 +38,7 @@ app.Router = Marionette.AppRouter.extend({
         'book': 'showBooks',
         'book/create': 'createBook',
 
-        'book/showFreeBooks' : 'showFreeBooks',
-        'book/showUsersBooks' : 'showUsersBooks'
+        'user/:id/give': 'giveBook',
     }
 });
 
@@ -57,12 +56,8 @@ routerAPI = {
         Controller.createBook();
     },
 
-    showFreeBooks: function () {
-        Controller.showFreeBooks();
-    },
-
-    showUsersBooks: function () {
-        Controller.showUsersBooks();
+    giveBook: function (id) {
+        Controller.giveBook(id);
     }
 };
 
@@ -106,14 +101,8 @@ app.on('start', function () {
         });
     });
 
-    app.on('show:freeBooks', function () {
-        Backbone.history.navigate('book/:id/showFreeBooks', {
-            trigger: true
-        });
-    });
-
-    app.on('show:usersBooks', function () {
-        Backbone.history.navigate('book/showUsersBooks', {
+    app.on('give:book', function (id) {
+        Backbone.history.navigate('user/' + id + '/give', {
             trigger: true
         });
     });

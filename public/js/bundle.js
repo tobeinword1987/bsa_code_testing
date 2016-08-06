@@ -20739,8 +20739,7 @@ app.Router = Marionette.AppRouter.extend({
         'book': 'showBooks',
         'book/create': 'createBook',
 
-        'book/showFreeBooks' : 'showFreeBooks',
-        'book/showUsersBooks' : 'showUsersBooks'
+        'user/:id/give': 'giveBook',
     }
 });
 
@@ -20758,12 +20757,8 @@ routerAPI = {
         Controller.createBook();
     },
 
-    showFreeBooks: function () {
-        Controller.showFreeBooks();
-    },
-
-    showUsersBooks: function () {
-        Controller.showUsersBooks();
+    giveBook: function (id) {
+        Controller.giveBook(id);
     }
 };
 
@@ -20807,14 +20802,8 @@ app.on('start', function () {
         });
     });
 
-    app.on('show:freeBooks', function () {
-        Backbone.history.navigate('book/:id/showFreeBooks', {
-            trigger: true
-        });
-    });
-
-    app.on('show:usersBooks', function () {
-        Backbone.history.navigate('book/showUsersBooks', {
+    app.on('give:book', function (id) {
+        Backbone.history.navigate('user/' + id + '/give', {
             trigger: true
         });
     });
@@ -20834,7 +20823,7 @@ app.on('start', function () {
 app.start();
 
 module.exports=app;
-},{"./controllers/Controller":32,"./views/header":50,"backbone":7,"backbone.marionette":1,"jquery":29,"underscore":30}],32:[function(require,module,exports){
+},{"./controllers/Controller":32,"./views/header":52,"backbone":7,"backbone.marionette":1,"jquery":29,"underscore":30}],32:[function(require,module,exports){
 var User=require('../models/user/User');
 var UserCollection=require('../models/user/UserCollection');
 var Users=require('../views/user/Users');
@@ -20845,6 +20834,8 @@ var Books=require('../views/book/Books');
 var CreateBook=require('../views/book/CreateBook');
 var UsersBookCollection=require('../models/user/UsersBookCollection');
 var UsersBooks=require('../views/user/UsersBooks.js');
+var User2=require('../models/user/User_get_free_books');
+var GiveBookView=require('../views/user/GiveBook');
 
 var Controller = {
     showUsers: function () {
@@ -20878,10 +20869,6 @@ var Controller = {
         app.main.show(createBookview);
     },
 
-    showFreeBooks: function(){
-
-    },
-
     showUsersBooks: function(){
         var usersbooks = new UsersBookCollection({
         });
@@ -20891,13 +20878,25 @@ var Controller = {
             collection:usersbooks,
         });
         app.main.show(usersbooksview);
+    },
+
+    giveBook: function (id) {
+        var user = new User2({id: id});
+        user.fetch().then(function () {
+            var view = new GiveBookView({
+                model: user
+            });
+            app.main.show(view);
+        }, function () {
+            alert('I can not fetch user');
+        });
     }
 }
 
 console.log(Controller);
 
 module.exports = Controller;
-},{"../models/book/Book":33,"../models/book/BookCollection":34,"../models/user/User":35,"../models/user/UserCollection":36,"../models/user/UsersBookCollection":38,"../views/book/Books":48,"../views/book/CreateBook":49,"../views/user/CreateUser":51,"../views/user/Users":53,"../views/user/UsersBooks.js":55}],33:[function(require,module,exports){
+},{"../models/book/Book":33,"../models/book/BookCollection":34,"../models/user/User":35,"../models/user/UserCollection":36,"../models/user/User_get_free_books":37,"../models/user/UsersBookCollection":39,"../views/book/Books":50,"../views/book/CreateBook":51,"../views/user/CreateUser":53,"../views/user/GiveBook":54,"../views/user/Users":56,"../views/user/UsersBooks.js":58}],33:[function(require,module,exports){
 var Book = Backbone.Model.extend({
     // urlRoot: 'http://bsa_laravel_rest.local/books',
     urlRoot: 'books',
@@ -21028,6 +21027,15 @@ var UserCollection = Backbone.Collection.extend({
 module.exports = UserCollection;
 
 },{"./User.js":35}],37:[function(require,module,exports){
+var User2 = Backbone.Model.extend({
+    url: function () {
+        // return 'http://bsa_laravel_rest.local/users/' + this.get('id')+'/books';
+        return 'users/' + this.get('id')+'/books';
+    }
+});
+
+module.exports=User2;
+},{}],38:[function(require,module,exports){
 //model книга пользователя
 var UsersBook = Backbone.Model.extend({
     // urlRoot: 'http://bsa_laravel_rest.local/users/:id',
@@ -21048,7 +21056,7 @@ var UsersBook = Backbone.Model.extend({
 });
 
 module.exports = UsersBook;
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 var UsersBook=require('./UsersBook');
 
 //model список книг пользователей
@@ -21059,7 +21067,7 @@ var UsersBookCollection = Backbone.Collection.extend({
 });
 
 module.exports = UsersBookCollection;
-},{"./UsersBook":37}],39:[function(require,module,exports){
+},{"./UsersBook":38}],40:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -21078,14 +21086,14 @@ module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":f
     + "</td>\n    <td>\n        <button class=\"btn btn-small btn-warning js-edit\">Edit</button>\n        <button id=\"book_del_button\" class=\"btn btn-small btn-danger pull-right js-delete\">Delete</button>\n\n    </td>\n";
 },"useData":true});
 
-},{"hbsfy/runtime":28}],40:[function(require,module,exports){
+},{"hbsfy/runtime":28}],41:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "\n    <thead>\n    <tr>\n        <th>Title:</th>\n        <th>Author:</th>\n        <th>Genre:</th>\n        <th>Year:</th>\n        <th>Owner:</th>\n        <th>Action:</th>\n    </tr>\n    </thead>\n    <tbody>\n\n    </tbody>";
 },"useData":true});
 
-},{"hbsfy/runtime":28}],41:[function(require,module,exports){
+},{"hbsfy/runtime":28}],42:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -21102,14 +21110,14 @@ module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":f
     + "\">\n        </div>\n        <input class=\"btn btn-primary js-save\" type=\"submit\" value=\"Save\">\n    </form>\n    <div class=\"js-errors\"></div>\n";
 },"useData":true});
 
-},{"hbsfy/runtime":28}],42:[function(require,module,exports){
+},{"hbsfy/runtime":28}],43:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "\n    <ul class=\"nav navbar-nav\">\n        <li><a style=\"cursor: pointer;\" class=\"js-users\">Users</a></li>\n        <li><a style=\"cursor: pointer;\" class=\"js-books\">Books</a></li>\n        <li><a style=\"cursor: pointer;\" class=\"js-add-user\">Add User</a></li>\n        <li><a style=\"cursor: pointer;\" class=\"js-add-book\">Add Book</a></li>\n    </ul>";
 },"useData":true});
 
-},{"hbsfy/runtime":28}],43:[function(require,module,exports){
+},{"hbsfy/runtime":28}],44:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -21124,7 +21132,38 @@ module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":f
     + "\">\n        </div>\n        <input class=\"btn btn-primary js-save\" type=\"submit\" value=\"Save\">\n    </form>\n\n    <div class=\"js-errors\"></div>\n";
 },"useData":true});
 
-},{"hbsfy/runtime":28}],44:[function(require,module,exports){
+},{"hbsfy/runtime":28}],45:[function(require,module,exports){
+// hbsfy compiled Handlebars template
+var HandlebarsCompiler = require('hbsfy/runtime');
+module.exports = HandlebarsCompiler.template({"1":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "                <option value=\""
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\">"
+    + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
+    + " "
+    + alias4(((helper = (helper = helpers.author || (depth0 != null ? depth0.author : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"author","hash":{},"data":data}) : helper)))
+    + " "
+    + alias4(((helper = (helper = helpers.genre || (depth0 != null ? depth0.genre : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"genre","hash":{},"data":data}) : helper)))
+    + " "
+    + alias4(((helper = (helper = helpers.year || (depth0 != null ? depth0.year : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"year","hash":{},"data":data}) : helper)))
+    + "</option>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
+
+  return "    <form>\n        <div class=\"form-group\">\n            <label for=\"\">Info</label>\n            <input class=\"form-control\" readonly=\"readonly\" name=\"info\" type=\"text\" value=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.user : depth0)) != null ? stack1.firstname : stack1), depth0))
+    + ", "
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.user : depth0)) != null ? stack1.lastname : stack1), depth0))
+    + ", "
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.user : depth0)) != null ? stack1.email : stack1), depth0))
+    + "\">\n        </div>\n\n        <div class=\"form-group\">\n\n            <select class=\"form-control\" name=\"select\" id=\"select\">\n                <option value=\"0\"></option>\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.books : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "            </select>\n        </div>\n        <input class=\"btn btn-primary js-submit\" type=\"submit\" value=\"Save\">\n    </form>\n";
+},"useData":true});
+
+},{"hbsfy/runtime":28}],46:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -21143,7 +21182,7 @@ module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":f
     + "</td>\n    <td>\n        <button class=\"btn btn-small btn-warning js-edit\">return</button>\n    </td>\n";
 },"useData":true});
 
-},{"hbsfy/runtime":28}],45:[function(require,module,exports){
+},{"hbsfy/runtime":28}],47:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -21155,17 +21194,17 @@ module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":f
     + alias4(((helper = (helper = helpers.lastname || (depth0 != null ? depth0.lastname : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"lastname","hash":{},"data":data}) : helper)))
     + "</td>\n    <td>"
     + alias4(((helper = (helper = helpers.email || (depth0 != null ? depth0.email : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"email","hash":{},"data":data}) : helper)))
-    + "</td>\n    <td>\n        <button id=\"showUsersBooks\" class=\"btn btn-small btn-success js-return\">Return a book</button>\n        <button id=\"showFreeBooks\" class=\"btn btn-small btn-default js-give\">Take a free book</button>\n        <button class=\"btn btn-small btn-warning js-edit\">Edit</button>\n        <button class=\"btn btn-small btn-danger pull-right js-delete\">Delete</button>\n\n    </td>\n";
+    + "</td>\n    <td>\n        <button class=\"btn btn-small btn-success js-return\">Return a book</button>\n        <button class=\"btn btn-small btn-default js-give\">Take a free book</button>\n        <button class=\"btn btn-small btn-warning js-edit\">Edit</button>\n        <button class=\"btn btn-small btn-danger pull-right js-delete\">Delete</button>\n\n    </td>\n";
 },"useData":true});
 
-},{"hbsfy/runtime":28}],46:[function(require,module,exports){
+},{"hbsfy/runtime":28}],48:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "\n    <thead>\n    <tr>\n    <th>FirstName:</th>\n<th>LastName:</th>\n<th>Email:</th>\n<th>Books:</th>\n<th>Action:</th>\n</tr>\n</thead>\n<tbody>\n\n</tbody>\n";
 },"useData":true});
 
-},{"hbsfy/runtime":28}],47:[function(require,module,exports){
+},{"hbsfy/runtime":28}],49:[function(require,module,exports){
 var template=require('../../templates/book/books_table_row_template.hbs');
 
 var BookInTable = Marionette.ItemView.extend({
@@ -21202,7 +21241,7 @@ var BookInTable = Marionette.ItemView.extend({
 });
 
 module.exports = BookInTable;
-},{"../../templates/book/books_table_row_template.hbs":39}],48:[function(require,module,exports){
+},{"../../templates/book/books_table_row_template.hbs":40}],50:[function(require,module,exports){
 var BookInTable=require('./BookInTable');
 var template=require('../../templates/book/books_table_template.hbs');
 
@@ -21216,7 +21255,7 @@ var Books = Marionette.CompositeView.extend({
 });
 
 module.exports = Books;
-},{"../../templates/book/books_table_template.hbs":40,"./BookInTable":47}],49:[function(require,module,exports){
+},{"../../templates/book/books_table_template.hbs":41,"./BookInTable":49}],51:[function(require,module,exports){
 var template=require('../../templates/book/create_book_template.hbs');
 var bookModel=require('../../models/book/Book');
 
@@ -21264,7 +21303,7 @@ var CreateBook = Marionette.ItemView.extend({
 });
 
 module.exports = CreateBook;
-},{"../../models/book/Book":33,"../../templates/book/create_book_template.hbs":41}],50:[function(require,module,exports){
+},{"../../models/book/Book":33,"../../templates/book/create_book_template.hbs":42}],52:[function(require,module,exports){
 var template=require('../templates/header_template.hbs');
 
 var header = Marionette.ItemView.extend({
@@ -21298,7 +21337,7 @@ var header = Marionette.ItemView.extend({
 });
 
 module.exports = header;
-},{"../templates/header_template.hbs":42}],51:[function(require,module,exports){
+},{"../templates/header_template.hbs":43}],53:[function(require,module,exports){
 var template=require('../../templates/user/create_user_template.hbs');
 
 
@@ -21344,30 +21383,71 @@ var CreateUser = Marionette.ItemView.extend({
 });
 
 module.exports = CreateUser;
-},{"../../templates/user/create_user_template.hbs":43}],52:[function(require,module,exports){
+},{"../../templates/user/create_user_template.hbs":44}],54:[function(require,module,exports){
+var template=require('../../templates/user/give_book_template.hbs');
+
+var GiveBookView = Marionette.ItemView.extend({
+    template: template,
+    ui: {
+        dropdownlist: '#select',
+        submit: '.js-submit'
+    },
+    events: {
+        'click @ui.submit': function (e) {
+            e.preventDefault();
+
+            var userid = this.model.get('id');
+
+            var book_id = this.ui.dropdownlist.val();
+            if(book_id == '') alert('Choose book');
+            else {
+                var Book1 = Backbone.Model.extend({
+                    // urlRoot: 'http://bsa_laravel_rest.local/users/' + userid+'/books/',
+                    urlRoot: 'users/' + userid+'/books/',
+                    defaults: {
+                        id: '',
+                        title: '',
+                        author: '',
+                        genre: '',
+                        year: '',
+                        user: {
+                            id: '',
+                            firstname: '',
+                            lastname: '',
+                            email: ''
+                        }
+                    }});
+
+                var book = new Book1({id: book_id});
+                book.save({user_id: userid}, {validate: false}).
+                then(function () {
+                    alert('Book was attached succesfully');
+                });
+            }
+        }
+    }
+});
+
+module.exports=GiveBookView;
+},{"../../templates/user/give_book_template.hbs":45}],55:[function(require,module,exports){
 var template=require('../../templates/user/users_table_row_template.hbs');
 
 var UserInTable = Marionette.ItemView.extend({
     tagName: 'tr',
     // template:window['JST']['resources/assets/js/app/templates/user/users_table_row_template.tpl'],
     template:template,
-    ui: {
-        showFreeBooks: '#showFreeBooks',
-        showUsersBooks: '#showUsersBooks',
-    },
-    events: {
-        'click @ui.showFreeBooks': function () {
-            app.trigger('show:freeBooks');
+        ui: {
+            give: '.js-give'
         },
-
-        'click @ui.showUsersBooks': function () {
-            app.trigger('show:usersBooks');
-        },
-    },
+        events: {
+            'click @ui.give': function () {
+                app.trigger('give:book', this.model.get('id'));
+            }
+        }
 });
 
 module.exports = UserInTable;
-},{"../../templates/user/users_table_row_template.hbs":45}],53:[function(require,module,exports){
+},{"../../templates/user/users_table_row_template.hbs":47}],56:[function(require,module,exports){
 var UserInTable=require('./UserInTable');
 
 var template=require('../../templates/user/users_table_template.hbs');
@@ -21383,7 +21463,7 @@ var Users = Marionette.CompositeView.extend({
 
 module.exports = Users;
 
-},{"../../templates/user/users_table_template.hbs":46,"./UserInTable":52}],54:[function(require,module,exports){
+},{"../../templates/user/users_table_template.hbs":48,"./UserInTable":55}],57:[function(require,module,exports){
 var template=require('../../templates/user/user_books_table_row_template.hbs');
 
 var UsersBookInTable = Marionette.ItemView.extend({
@@ -21397,7 +21477,7 @@ var UsersBookInTable = Marionette.ItemView.extend({
 });
 
 module.exports = UsersBookInTable;
-},{"../../templates/user/user_books_table_row_template.hbs":44}],55:[function(require,module,exports){
+},{"../../templates/user/user_books_table_row_template.hbs":46}],58:[function(require,module,exports){
 var UsersBookInTable=require('./UsersBookInTable');
 
 var template=require('../../templates/user/users_table_template.hbs');
@@ -21413,4 +21493,4 @@ var UsersBooks = Marionette.CompositeView.extend({
 });
 
 module.exports = UsersBooks;
-},{"../../templates/user/users_table_template.hbs":46,"./UsersBookInTable":54}]},{},[31]);
+},{"../../templates/user/users_table_template.hbs":48,"./UsersBookInTable":57}]},{},[31]);

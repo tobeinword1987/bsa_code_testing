@@ -6,21 +6,26 @@ use App\Jobs\Job;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Book;
+use App\User;
+use Mail;
 
 class Send_mail_turn_the_book extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
     
     protected $user;
+    protected $book;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(User $user,Book $book)
+    public function __construct(Book $book,User $user)
     {
         $this->user=$user;
+        $this->book=$book;
     }
 
     /**
@@ -41,15 +46,11 @@ class Send_mail_turn_the_book extends Job implements ShouldQueue
                 'title' => $this->book->title,
             ];
 
-            Mail::queue('turn_book', $input, function($message) use ($input)
+            Mail::queue('emails.turn_book', $input, function($message) use ($input)
             {
                 $message->to($input['email'], $input['name']);
                 $message->subject($input['subject']);
             });
-        }
-        else
-        {
-            InteractsWithQueue::delete();
         }
     }
 }
